@@ -1,0 +1,12 @@
+num_cpu            = 4
+num_mem            = 16
+system_disk_size   = 200
+name               = "openshift-dev"
+vpc_name           = "openshift-vpc"
+cidr               = "192.168.0.0/16"
+image_id_installer = "^openshift_installer_v1.0"
+image_id_bootstrap = "^openshift_bootstrap_v1.0"
+image_id_master    = "^openshift_master_v1.0"
+image_id_worker    = "^openshift_worker_v1.0"
+bucket             = "b2-os-dev"
+domain             = "os.com"
