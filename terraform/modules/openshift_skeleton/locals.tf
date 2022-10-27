@@ -10,8 +10,8 @@ locals {
   subnet_octet       = split(".", local.subnet_ip_mask[0])
   ip_octet_openshift = 1
   ip_octet_start     = 16
-  ip_octet_master    = range(local.ip_octet_start, var.num_master)
-  ip_octet_worker    = range(local.ip_octet_start + var.num_master, var.num_worker)
+  ip_octet_master    = range(local.ip_octet_start, local.ip_octet_start+var.num_master)
+  ip_octet_worker    = range(local.ip_octet_start + var.num_master, local.ip_octet_start+var.num_master+var.num_worker)
   ip_octet_bootstrap = local.ip_octet_start + var.num_master + var.num_worker
   ip_octet_installer = local.ip_octet_bootstrap + 1
   ip_octet_api       = local.ip_octet_bootstrap + 3
