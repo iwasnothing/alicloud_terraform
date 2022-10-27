@@ -14,7 +14,7 @@ variable "name" {
   type = string
 }
 variable "image_id" {
-  type    = string
+  type = string
 }
 variable "system_disk_category" {
   type    = string
@@ -45,4 +45,20 @@ variable "enable_startup_script" {
 variable "enable_public_ip" {
   type    = bool
   default = false
+}
+variable "enable_static_ip" {
+  type    = bool
+  default = false
+}
+variable "enable_elastic_ip" {
+  type    = bool
+  default = false
+}
+variable "ip_address" {
+  type    = string
+  default = ""
+}
+variable "internet_bandwidth" {
+  type    = number
+  default = 10
 }

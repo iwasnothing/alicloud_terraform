@@ -4,13 +4,23 @@ variable "num_cpu" {
 variable "num_mem" {
   type = number
 }
+variable "num_master" {
+  type = number
+}
+variable "num_worker" {
+  type = number
+}
 variable "system_disk_size" {
   type = number
 }
-variable "name" {
+variable "app_name" {
+  type    = string
+  default = "openshift"
+}
+variable "env" {
   type = string
 }
-variable "domain" {
+variable "org_name" {
   type = string
 }
 variable "vpc_name" {
@@ -32,5 +42,8 @@ variable "image_id_worker" {
   type = string
 }
 variable "bucket" {
+  type = string
+}
+variable "lb_spec" {
   type = string
 }

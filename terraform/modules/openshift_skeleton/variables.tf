@@ -6,11 +6,26 @@ variable "num_mem" {
   type    = number
   default = 2
 }
+variable "num_master" {
+  type    = number
+  default = 3
+}
+variable "num_worker" {
+  type    = number
+  default = 3
+}
 variable "system_disk_size" {
   type    = number
   default = 200
 }
-variable "name" {
+variable "app_name" {
+  type    = string
+  default = "openshift"
+}
+variable "org_name" {
+  type = string
+}
+variable "env" {
   type = string
 }
 variable "vpc_name" {
@@ -54,6 +69,7 @@ variable "storage_class" {
   type    = string
   default = "Standard"
 }
-variable "domain" {
-  type = string
+variable "lb_spec" {
+  type    = string
+  default = "slb.s1.small"
 }

@@ -1,91 +1,39 @@
 locals {
+  domain = "${var.app_name}-${var.env}-${var.org_name}"
   subnet_list = {
     shared_zone = {
       cidr = var.cidr
       zone = "${var.region}-a"
     }
   }
-  instance_list = {
-    installer = {
-      name                 = "installer"
-      num_cpu              = var.num_cpu
-      num_mem              = var.num_mem
-      system_disk_size     = var.system_disk_size
-      system_disk_category = var.system_disk_category
-      image_id             = var.image_id_installer
-      enable_public_ip     = true
-    }
-    bootstrap = {
-      name                 = "bootstrap"
-      num_cpu              = var.num_cpu
-      num_mem              = var.num_mem
-      system_disk_size     = var.system_disk_size
-      system_disk_category = var.system_disk_category
-      image_id             = var.image_id_bootstrap
-      enable_public_ip     = true
-    }
-    master0 = {
-      name                 = "master0"
-      num_cpu              = var.num_cpu
-      num_mem              = var.num_mem
-      system_disk_size     = var.system_disk_size
-      system_disk_category = var.system_disk_category
-      image_id             = var.image_id_master
-      enable_public_ip     = false
-    }
-    master1 = {
-      name                 = "master1"
-      num_cpu              = var.num_cpu
-      num_mem              = var.num_mem
-      system_disk_size     = var.system_disk_size
-      system_disk_category = var.system_disk_category
-      image_id             = var.image_id_master
-      enable_public_ip     = false
-    }
-    master2 = {
-      name                 = "master2"
-      num_cpu              = var.num_cpu
-      num_mem              = var.num_mem
-      system_disk_size     = var.system_disk_size
-      system_disk_category = var.system_disk_category
-      image_id             = var.image_id_master
-      enable_public_ip     = false
-    }
-    worker0 = {
-      name                 = "worker0"
-      num_cpu              = var.num_cpu
-      num_mem              = var.num_mem
-      system_disk_size     = var.system_disk_size
-      system_disk_category = var.system_disk_category
-      image_id             = var.image_id_worker
-      enable_public_ip     = false
-    }
-    worker1 = {
-      name                 = "worker1"
-      num_cpu              = var.num_cpu
-      num_mem              = var.num_mem
-      system_disk_size     = var.system_disk_size
-      system_disk_category = var.system_disk_category
-      image_id             = var.image_id_worker
-      enable_public_ip     = false
-    }
-    worker2 = {
-      name                 = "worker2"
-      num_cpu              = var.num_cpu
-      num_mem              = var.num_mem
-      system_disk_size     = var.system_disk_size
-      system_disk_category = var.system_disk_category
-      image_id             = var.image_id_worker
-      enable_public_ip     = false
-    }
-  }
-  dns_record_list = {
-    entry0 = {
-      host_record = ""
-      remark      = ""
-      ip          = ""
-    }
-  }
+  subnet_ip_mask     = split("/", var.cidr)
+  subnet_octet       = split(".", local.subnet_ip_mask[0])
+  ip_octet_openshift = 1
+  ip_octet_start     = 16
+  ip_octet_master    = range(local.ip_octet_start, var.num_master)
+  ip_octet_worker    = range(local.ip_octet_start + var.num_master, var.num_worker)
+  ip_octet_bootstrap = local.ip_octet_start + var.num_master + var.num_worker
+  ip_octet_installer = local.ip_octet_bootstrap + 1
+  ip_octet_api       = local.ip_octet_bootstrap + 3
+
+  ip_bootstrap   = join(".", tolist([for x in concat(slice(local.subnet_octet, 0, 2), tolist([local.ip_octet_openshift, local.ip_octet_bootstrap])) : tostring(x)]))
+  ip_installer   = join(".", tolist([for x in concat(slice(local.subnet_octet, 0, 2), tolist([local.ip_octet_openshift, local.ip_octet_installer])) : tostring(x)]))
+  ip_api         = join(".", tolist([for x in concat(slice(local.subnet_octet, 0, 2), tolist([local.ip_octet_openshift, local.ip_octet_api])) : tostring(x)]))
+  ip_list_master = tolist([for i in local.ip_octet_master : join(".", tolist([for x in concat(slice(local.subnet_octet, 0, 2), tolist([local.ip_octet_openshift, i])) : tostring(x)]))])
+  ip_list_worker = tolist([for i in local.ip_octet_worker : join(".", tolist([for x in concat(slice(local.subnet_octet, 0, 2), tolist([local.ip_octet_openshift, i])) : tostring(x)]))])
+
+  api_rr       = join(".", tolist([for x in [local.ip_octet_api, local.ip_octet_openshift] : tostring(x)]))
+  bootstrap_rr = join(".", tolist([for x in [local.ip_octet_bootstrap, local.ip_octet_openshift] : tostring(x)]))
+  master_rr    = tolist([for i in local.ip_octet_master : join(".", tolist([for x in [i, local.ip_octet_openshift] : tostring(x)]))])
+  worker_rr    = tolist([for i in local.ip_octet_worker : join(".", tolist([for x in [i, local.ip_octet_openshift] : tostring(x)]))])
+
+  pvtz_zone = join(".", tolist([tostring(local.subnet_octet[1]), tostring(local.subnet_octet[0]), "in-addr", "arpa"]))
+  ttl       = 60
+
+  num_listener   = 5
+  backend_ports  = [6443, 443, 80, 22623, 22]
+  frontend_ports = [6443, 443, 80, 22623, 22]
+
   ingress_list = {
     http = {
       enable_internet        = true
