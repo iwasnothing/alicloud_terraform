@@ -19,7 +19,7 @@ module "load_balancer" {
   num_listener   = local.num_listener
   backend_ports  = local.backend_ports
   frontend_ports = local.frontend_ports
-  server_ids     = concat([module.openshift_installer.instance_id, module.openshift_bootstrap.instance_id], module.openshift_master.*.instance_id, module.openshift_worker.*.instance_id)
+  server_ids     = local.server_ids_master_worker_boostrap_installer
 }
 module "oss_bucket" {
   source = "../oss_module"
@@ -51,6 +51,7 @@ module "nas" {
 module "openshift_installer" {
   source = "../ecs_module"
 
+  count                 = var.enable_installer ? 1 : 0
   num_cpu               = var.num_cpu
   num_mem               = var.num_mem
   name                  = "${var.app_name}-installer-${var.env}"
@@ -68,6 +69,7 @@ module "openshift_installer" {
 module "openshift_bootstrap" {
   source = "../ecs_module"
 
+  count                 = var.enable_bootstrap ? 1 : 0
   num_cpu               = var.num_cpu
   num_mem               = var.num_mem
   name                  = "${var.app_name}-bootstrap-${var.env}"

@@ -18,8 +18,9 @@ module "openshift_cluster" {
   image_id_master      = var.image_id_master
   image_id_worker      = var.image_id_worker
   bucket               = var.bucket
+  enable_bootstrap     = var.enable_bootstrap
+  enable_installer     = var.enable_installer
   acl                  = "private"
   storage_class        = "Standard"
   system_disk_category = "cloud_ssd"
-
 }

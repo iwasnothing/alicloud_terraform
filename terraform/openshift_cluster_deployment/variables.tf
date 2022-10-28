@@ -47,3 +47,12 @@ variable "bucket" {
 variable "lb_spec" {
   type = string
 }
+variable "enable_bootstrap" {
+  type    = bool
+  default = true
+}
+variable "enable_installer" {
+  type    = bool
+  default = true
+}
+

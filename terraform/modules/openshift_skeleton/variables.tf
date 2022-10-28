@@ -73,3 +73,11 @@ variable "lb_spec" {
   type    = string
   default = "slb.s1.small"
 }
+variable "enable_bootstrap" {
+  type    = bool
+  default = true
+}
+variable "enable_installer" {
+  type    = bool
+  default = true
+}
