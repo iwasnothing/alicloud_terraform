@@ -2,3 +2,5 @@
 *.terraform*
 *.tfstate*
 baking*
+*venv*
+*__pycache__*

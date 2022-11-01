@@ -1,0 +1,21 @@
+config:
+  openshift:data:
+    app_name: openshift
+    region: cn-hongkong
+    num_master: 3
+    num_worker: 3
+    env: dev
+    org_name: os.com
+    cidr: 192.168.0.0/16
+    num_master: 3
+    num_worker: 3
+    enable_installer: true
+    enable_bootstrap: true
+    image_id_installer: centos_stream_9_x64_20G_alibase_20220824.vhd
+    image_id_bootstrap: centos_stream_9_x64_20G_alibase_20220824.vhd
+    image_id_master: centos_stream_9_x64_20G_alibase_20220824.vhd
+    image_id_worker: centos_stream_9_x64_20G_alibase_20220824.vhd
+    instance_type: ecs.sn1ne.2xlarge
+    system_disk_category: cloud_ssd
+    system_disk_size: 200
+    lb_spec: slb.s1.small

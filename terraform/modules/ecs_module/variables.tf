@@ -62,3 +62,7 @@ variable "internet_bandwidth" {
   type    = number
   default = 10
 }
+variable "data_disks" {
+  type = map
+  default = {}
+}

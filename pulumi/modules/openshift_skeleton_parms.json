@@ -1,0 +1,134 @@
+{
+  "frontend_ports": [
+    6443,
+    443,
+    80,
+    22623,
+    22
+  ],
+  "backend_ports": [
+    6443,
+    443,
+    80,
+    22623,
+    22
+  ],
+  "ip_octet_openshift": 1,
+  "ip_octet_start": 16,
+  "security_rules": [
+    {
+      "type": "ingress",
+      "nic_type": "internet",
+      "protocol": "tcp",
+      "port_range": "80/80",
+      "name": "http"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "internet",
+      "protocol": "tcp",
+      "port_range": "443/443",
+      "name": "https"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "internet",
+      "protocol": "tcp",
+      "port_range": "22/22",
+      "name": "ssh"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "intranet",
+      "protocol": "tcp",
+      "port_range": "9000/9999",
+      "name": "host_level"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "intranet",
+      "protocol": "tcp",
+      "port_range": "10250/10259",
+      "name": "kubernetes"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "intranet",
+      "protocol": "tcp",
+      "port_range": "10256/10256",
+      "name": "sdn"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "intranet",
+      "protocol": "udp",
+      "port_range": "4789/4789",
+      "name": "vxlan0"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "intranet",
+      "protocol": "udp",
+      "port_range": "6081/6081",
+      "name": "vxlan1"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "intranet",
+      "protocol": "udp",
+      "port_range": "9000/9999",
+      "name": "node_exporter"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "intranet",
+      "protocol": "tcp",
+      "port_range": "30000/32767",
+      "name": "k8s_node_port_tcp"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "intranet",
+      "protocol": "udp",
+      "port_range": "30000/32767",
+      "name": "k8s_node_port_udp"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "intranet",
+      "protocol": "icmp",
+      "port_range": "-1/-1",
+      "name": "icmp"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "intranet",
+      "protocol": "tcp",
+      "port_range": "2379/2380",
+      "name": "etcd"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "intranet",
+      "protocol": "tcp",
+      "port_range": "6443/6443",
+      "name": "api"
+    },
+    {
+      "type": "ingress",
+      "nic_type": "intranet",
+      "protocol": "tcp",
+      "port_range": "22623/22623",
+      "name": "custom"
+    },
+    {
+      "type": "egress",
+      "nic_type": "internet",
+      "protocol": "tcp",
+      "port_range": "1/65535",
+      "name": "allow_all_egress"
+    }
+  ],
+  "prtz_type":"PTR",
+  "ttl":60
+}

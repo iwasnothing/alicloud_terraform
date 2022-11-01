@@ -16,6 +16,15 @@ resource "alicloud_instance" "default" {
   host_name                  = var.name
   private_ip                 = var.enable_static_ip ? var.ip_address : null
   internet_max_bandwidth_out = var.enable_public_ip ? var.internet_bandwidth : 0
+  dynamic data_disks {
+    for_each = var.data_disks
+
+    content {
+       name        = each.value.name
+       size        = each.value.size
+       category    = each.value.category
+    }
+  }
 }
 
 
